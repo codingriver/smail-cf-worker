@@ -4,7 +4,6 @@ import {
 	Link,
 	redirect,
 	useFetcher,
-	useRevalidator,
 } from "react-router";
 import { commitSession, getSession } from "~/.server/session";
 import {
@@ -244,9 +243,9 @@ type SeoNarrative = {
 
 const SEO_NARRATIVE_COPY: Record<Locale, SeoNarrative> = {
 	en: {
-		title: "Why use smail.pw temporary email",
+		title: "Why use smail temporary email",
 		description:
-			"smail.pw is a free temporary email generator (temp mail) for low-risk sign-ups, OTP verification, and one-time downloads. Create a 24-hour disposable inbox in seconds.",
+			"smail is a free temporary email generator (temp mail) for low-risk sign-ups, OTP verification, and one-time downloads. Create a 24-hour disposable inbox in seconds.",
 		points: [
 			"Works well for temporary email registration and verification code workflows",
 			"No sign-up or password setup for quick temp mail access",
@@ -255,9 +254,9 @@ const SEO_NARRATIVE_COPY: Record<Locale, SeoNarrative> = {
 		],
 	},
 	zh: {
-		title: "为什么选择 smail.pw 临时邮箱",
+		title: "为什么选择 smail 临时邮箱",
 		description:
-			"smail.pw 是免费临时邮箱生成器，覆盖临时邮箱、一次性邮箱、24小时邮箱等常见场景。适合临时邮箱注册、验证码（OTP）接收和在线临时收信。",
+			"smail 是免费临时邮箱生成器，覆盖临时邮箱、一次性邮箱、24小时邮箱等常见场景。适合临时邮箱注册、验证码（OTP）接收和在线临时收信。",
 		points: [
 			"适合临时邮箱注册、活动领取、下载验证等低风险场景",
 			"免注册、免密码，作为免费临时邮箱快速使用，减少真实邮箱暴露",
@@ -266,9 +265,9 @@ const SEO_NARRATIVE_COPY: Record<Locale, SeoNarrative> = {
 		],
 	},
 	es: {
-		title: "Por qué usar el correo temporal de smail.pw",
+		title: "Por qué usar el correo temporal de smail",
 		description:
-			"smail.pw ofrece correo temporal gratis (temp mail) para registros rápidos, verificación OTP y descargas puntuales con retención de 24 horas.",
+			"smail ofrece correo temporal gratis (temp mail) para registros rápidos, verificación OTP y descargas puntuales con retención de 24 horas.",
 		points: [
 			"Útil para flujos de registro y verificación de bajo riesgo",
 			"Sin cuenta ni contraseña para empezar de inmediato",
@@ -276,9 +275,9 @@ const SEO_NARRATIVE_COPY: Record<Locale, SeoNarrative> = {
 		],
 	},
 	fr: {
-		title: "Pourquoi utiliser l'email temporaire smail.pw",
+		title: "Pourquoi utiliser l'email temporaire smail",
 		description:
-			"smail.pw fournit un email temporaire gratuit (temp mail) pour inscription rapide, OTP et usages ponctuels avec rétention de 24h.",
+			"smail fournit un email temporaire gratuit (temp mail) pour inscription rapide, OTP et usages ponctuels avec rétention de 24h.",
 		points: [
 			"Adapté aux inscriptions et vérifications à faible risque",
 			"Aucun compte ni mot de passe requis pour commencer",
@@ -286,9 +285,9 @@ const SEO_NARRATIVE_COPY: Record<Locale, SeoNarrative> = {
 		],
 	},
 	de: {
-		title: "Warum temporäre E-Mail von smail.pw",
+		title: "Warum temporäre E-Mail von smail",
 		description:
-			"smail.pw bietet kostenlose Temp Mail für schnelle Registrierungen, OTP-Verifizierung und einmalige Nutzung mit 24h Aufbewahrung.",
+			"smail bietet kostenlose Temp Mail für schnelle Registrierungen, OTP-Verifizierung und einmalige Nutzung mit 24h Aufbewahrung.",
 		points: [
 			"Ideal für risikoarme Registrierung und Verifizierung",
 			"Kein Konto und kein Passwort für den Sofortstart",
@@ -296,9 +295,9 @@ const SEO_NARRATIVE_COPY: Record<Locale, SeoNarrative> = {
 		],
 	},
 	ja: {
-		title: "smail.pw の一時メールを使う理由",
+		title: "smail の一時メールを使う理由",
 		description:
-			"smail.pw は無料の一時メール（temp mail）です。登録・OTP認証・短期利用向けに24時間の受信箱をすぐ作成できます。",
+			"smail は無料の一時メール（temp mail）です。登録・OTP認証・短期利用向けに24時間の受信箱をすぐ作成できます。",
 		points: [
 			"低リスクの登録と認証フローに最適",
 			"アカウント登録やパスワード設定が不要",
@@ -306,9 +305,9 @@ const SEO_NARRATIVE_COPY: Record<Locale, SeoNarrative> = {
 		],
 	},
 	ko: {
-		title: "smail.pw 임시 이메일을 쓰는 이유",
+		title: "smail 임시 이메일을 쓰는 이유",
 		description:
-			"smail.pw는 무료 임시 이메일(temp mail) 서비스로, 가입/OTP 인증/일회성 사용에 맞춘 24시간 메일함을 즉시 제공합니다.",
+			"smail는 무료 임시 이메일(temp mail) 서비스로, 가입/OTP 인증/일회성 사용에 맞춘 24시간 메일함을 즉시 제공합니다.",
 		points: [
 			"저위험 가입 및 인증 흐름에 적합",
 			"계정 생성과 비밀번호 없이 바로 사용",
@@ -316,9 +315,9 @@ const SEO_NARRATIVE_COPY: Record<Locale, SeoNarrative> = {
 		],
 	},
 	ru: {
-		title: "Почему стоит использовать временную почту smail.pw",
+		title: "Почему стоит использовать временную почту smail",
 		description:
-			"smail.pw — бесплатный temp mail для быстрых регистраций, OTP-подтверждений и одноразовых задач с хранением до 24 часов.",
+			"smail — бесплатный temp mail для быстрых регистраций, OTP-подтверждений и одноразовых задач с хранением до 24 часов.",
 		points: [
 			"Подходит для низкорисковых регистраций и подтверждений",
 			"Без аккаунта и пароля — можно начать сразу",
@@ -326,9 +325,9 @@ const SEO_NARRATIVE_COPY: Record<Locale, SeoNarrative> = {
 		],
 	},
 	pt: {
-		title: "Por que usar o email temporário do smail.pw",
+		title: "Por que usar o email temporário do smail",
 		description:
-			"smail.pw oferece temp mail grátis para cadastro rápido, OTP e uso pontual, com caixa descartável por 24 horas.",
+			"smail oferece temp mail grátis para cadastro rápido, OTP e uso pontual, com caixa descartável por 24 horas.",
 		points: [
 			"Bom para cadastro e verificação de baixo risco",
 			"Sem conta e sem senha para começar imediatamente",
@@ -336,9 +335,9 @@ const SEO_NARRATIVE_COPY: Record<Locale, SeoNarrative> = {
 		],
 	},
 	ar: {
-		title: "لماذا تستخدم البريد المؤقت من smail.pw",
+		title: "لماذا تستخدم البريد المؤقت من smail",
 		description:
-			"يوفر smail.pw بريدًا مؤقتًا مجانيًا (temp mail) للتسجيل السريع ورموز OTP والاستخدام القصير مع احتفاظ لمدة 24 ساعة.",
+			"يوفر smail بريدًا مؤقتًا مجانيًا (temp mail) للتسجيل السريع ورموز OTP والاستخدام القصير مع احتفاظ لمدة 24 ساعة.",
 		points: [
 			"مناسب لعمليات التسجيل والتحقق منخفضة المخاطر",
 			"بدون حساب أو كلمة مرور لبدء الاستخدام فورًا",
@@ -354,16 +353,16 @@ function getSeoNarrative(locale: Locale): SeoNarrative {
 function getHomeJsonLd(locale: Locale) {
 	const localizedHomeUrl = `${BASE_URL}${toLocalePath("/", locale)}`;
 	const descriptionByLocale: Record<Locale, string> = {
-		en: "smail.pw provides free temporary email (temp mail) inboxes for sign-up and OTP verification with 24-hour auto cleanup.",
-		zh: "smail.pw 提供免费临时邮箱（一次性邮箱）服务，适合临时邮箱注册和验证码接收，邮件 24 小时后自动清理。",
-		es: "smail.pw ofrece correo temporal gratis (temp mail) para registros y códigos OTP con limpieza automática en 24 horas.",
-		fr: "smail.pw propose un email temporaire gratuit (temp mail) pour inscription et OTP avec suppression automatique après 24h.",
-		de: "smail.pw bietet kostenlose temporäre E-Mail (Temp Mail) für Registrierung und OTP mit automatischer 24h-Bereinigung.",
-		ja: "smail.pw は登録とOTP認証に使える無料の一時メール（temp mail）を提供し、24時間後に自動削除されます。",
-		ko: "smail.pw는 가입과 OTP 인증에 쓰는 무료 임시 이메일(temp mail)을 제공하며 24시간 후 자동 정리됩니다.",
-		ru: "smail.pw предоставляет бесплатную временную почту (temp mail) для регистрации и OTP с автоочисткой через 24 часа.",
-		pt: "smail.pw oferece email temporário grátis (temp mail) para cadastro e OTP com limpeza automática após 24h.",
-		ar: "يوفر smail.pw بريدًا مؤقتًا مجانيًا (temp mail) للتسجيل ورموز OTP مع حذف تلقائي بعد 24 ساعة.",
+		en: "smail provides free temporary email (temp mail) inboxes for sign-up and OTP verification with 24-hour auto cleanup.",
+		zh: "smail 提供免费临时邮箱（一次性邮箱）服务，适合临时邮箱注册和验证码接收，邮件 24 小时后自动清理。",
+		es: "smail ofrece correo temporal gratis (temp mail) para registros y códigos OTP con limpieza automática en 24 horas.",
+		fr: "smail propose un email temporaire gratuit (temp mail) pour inscription et OTP avec suppression automatique après 24h.",
+		de: "smail bietet kostenlose temporäre E-Mail (Temp Mail) für Registrierung und OTP mit automatischer 24h-Bereinigung.",
+		ja: "smail は登録とOTP認証に使える無料の一時メール（temp mail）を提供し、24時間後に自動削除されます。",
+		ko: "smail는 가입과 OTP 인증에 쓰는 무료 임시 이메일(temp mail)을 제공하며 24시간 후 자동 정리됩니다.",
+		ru: "smail предоставляет бесплатную временную почту (temp mail) для регистрации и OTP с автоочисткой через 24 часа.",
+		pt: "smail oferece email temporário grátis (temp mail) para cadastro e OTP com limpeza automática após 24h.",
+		ar: "يوفر smail بريدًا مؤقتًا مجانيًا (temp mail) للتسجيل ورموز OTP مع حذف تلقائي بعد 24 ساعة.",
 	};
 	const description = descriptionByLocale[locale] ?? descriptionByLocale.en;
 
@@ -372,7 +371,7 @@ function getHomeJsonLd(locale: Locale) {
 		"@graph": [
 			{
 				"@type": "WebSite",
-				name: "smail.pw",
+				name: "smail",
 				url: localizedHomeUrl,
 				inLanguage: locale,
 				description,
@@ -383,7 +382,7 @@ function getHomeJsonLd(locale: Locale) {
 			},
 			{
 				"@type": "WebApplication",
-				name: "smail.pw Temporary Email",
+				name: "smail Temporary Email",
 				url: localizedHomeUrl,
 				applicationCategory: "UtilitiesApplication",
 				operatingSystem: "Web",
@@ -525,22 +524,59 @@ function EmailModal({
 					</div>
 				</div>
 
-				<div className="p-4 sm:p-5">
-					{loading ? (
-						<div className="text-theme-muted flex h-[min(62vh,700px)] items-center justify-center rounded-xl border border-dashed border-theme-soft text-[13px]">
-							{copy.loading}
-						</div>
-					) : detail?.body ? (
-						<iframe
-							srcDoc={detail.body}
-							title="Email content"
-							className="border-theme-soft h-[min(62vh,700px)] w-full overflow-hidden rounded-xl border bg-white"
-							sandbox=""
-							referrerPolicy="no-referrer"
-						/>
-					) : (
-						<div className="text-theme-muted flex h-[min(62vh,700px)] items-center justify-center rounded-xl border border-dashed border-theme-soft text-[13px]">
-							{copy.empty}
+				<div className="flex flex-1 flex-col overflow-hidden">
+					<div className="flex-1 overflow-y-auto p-4 sm:p-5">
+						{loading ? (
+							<div className="text-theme-muted flex h-[min(62vh,700px)] items-center justify-center rounded-xl border border-dashed border-theme-soft text-[13px]">
+								{copy.loading}
+							</div>
+						) : detail?.body ? (
+							<iframe
+								srcDoc={detail.body}
+								title="Email content"
+								className="border-theme-soft h-[min(62vh,700px)] w-full overflow-hidden rounded-xl border bg-white"
+								sandbox=""
+								referrerPolicy="no-referrer"
+							/>
+						) : (
+							<div className="text-theme-muted flex h-[min(62vh,700px)] items-center justify-center rounded-xl border border-dashed border-theme-soft text-[13px]">
+								{copy.empty}
+							</div>
+						)}
+					</div>
+					{detail && detail.attachments.length > 0 && (
+						<div className="border-theme-soft border-t px-4 py-3 sm:px-5">
+							<div className="text-theme-faint mb-2 text-[11px] font-semibold uppercase tracking-[0.1em]">
+								{copy.attachments}
+							</div>
+							<div className="flex flex-wrap gap-2">
+								{detail.attachments.map((att) => (
+									<a
+										key={att.filename}
+										href={`/api/email/${email.id}/attachment/${encodeURIComponent(att.filename)}`}
+										download
+										className="border-theme-soft bg-theme-subtle hover:bg-theme-soft inline-flex max-w-[200px] items-center gap-1.5 rounded-lg border px-3 py-1.5 text-[12px] transition-colors"
+									>
+										<svg
+											viewBox="0 0 16 16"
+											fill="none"
+											stroke="currentColor"
+											strokeWidth="1.5"
+											className="h-3.5 w-3.5 shrink-0"
+										>
+											<path d="M8 1v10M4 7l4 4 4-4M2 13h12" strokeLinecap="round" strokeLinejoin="round" />
+										</svg>
+										<span className="truncate">{att.filename}</span>
+										<span className="text-theme-faint shrink-0">
+											{att.size > 1024 * 1024
+												? `${(att.size / 1024 / 1024).toFixed(1)} MB`
+												: att.size > 1024
+													? `${(att.size / 1024).toFixed(1)} KB`
+													: `${att.size} B`}
+										</span>
+									</a>
+								))}
+							</div>
 						</div>
 					)}
 				</div>
@@ -683,7 +719,7 @@ export async function action({ request }: Route.ActionArgs) {
 
 export default function Home({ loaderData, actionData }: Route.ComponentProps) {
 	const fetcher = useFetcher<typeof actionData>();
-	const revalidator = useRevalidator();
+	const refreshFetcher = useFetcher<typeof loader>();
 	const [copied, setCopied] = useState(false);
 	const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
 	const [lastInboxRefreshAt, setLastInboxRefreshAt] = useState(() =>
@@ -695,14 +731,15 @@ export default function Home({ loaderData, actionData }: Route.ComponentProps) {
 	const seoNarrative = getSeoNarrative(locale);
 	const homeJsonLd = getHomeJsonLd(locale);
 	const addresses = fetcher.data?.addresses || loaderData.addresses;
-	const emails = loaderData.emails;
+	const emails = refreshFetcher.data?.emails ?? loaderData.emails;
+	const renderedAt = refreshFetcher.data?.renderedAt ?? loaderData.renderedAt;
 	const isSubmitting = fetcher.state === "submitting";
 	const submittingIntent = fetcher.formData?.get("intent");
-	const isRefreshingInbox = revalidator.state !== "idle";
+	const isRefreshingInbox = refreshFetcher.state !== "idle";
 
 	useEffect(() => {
-		setLastInboxRefreshAt(loaderData.renderedAt);
-	}, [loaderData.renderedAt]);
+		setLastInboxRefreshAt(renderedAt);
+	}, [renderedAt]);
 
 	return (
 		<div className="flex flex-1 py-3 sm:py-4">
@@ -894,7 +931,7 @@ export default function Home({ loaderData, actionData }: Route.ComponentProps) {
 										type="button"
 										className="theme-badge px-3 py-1 text-[11px] font-semibold disabled:cursor-not-allowed disabled:opacity-60"
 										onClick={() => {
-											revalidator.revalidate();
+											refreshFetcher.load("/");
 										}}
 										disabled={isRefreshingInbox}
 									>

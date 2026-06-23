@@ -1,7 +1,7 @@
 import { BLOG_LOCALES } from "~/blog/data";
 import { type Locale, SUPPORTED_LOCALES } from "~/i18n/config";
 
-export const BASE_URL = "https://smail.pw";
+export const BASE_URL = "https://smail.606055.xyz";
 
 export const MARKDOWN_BASE_PATHS = [
 	"/about",

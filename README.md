@@ -1,12 +1,16 @@
-# smail.pw（smail-v3）
+# smail Cloudflare Worker
 
 基于 React Router Framework Mode + Cloudflare Workers 的临时邮箱服务。
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/akazwz/smail)
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/codingriver/smail-cf-worker)
 
-- 线上域名：`https://smail.pw`
-- Worker 名称：`smail-app`
+- 线上域名：`https://smail.606055.xyz`
+- Worker 名称：`smail`
 - 默认语言：`en`（同时支持 10 种语言）
+
+## 项目来源
+
+本项目基于 [akazwz/smail](https://github.com/akazwz/smail) 修改和部署，保留原项目的 React Router + Cloudflare Workers 临时邮箱架构，并针对当前 Cloudflare 资源、域名、附件处理和运维可观测性做了适配。
 
 ## 一键部署（Deploy to Cloudflare）
 
@@ -39,10 +43,22 @@
 
 - 首页临时邮箱收件箱
 - 邮件预览弹窗（解析 HTML/Text）
+- 邮件附件识别与下载
+- HTML 邮件内联 `cid:` 图片显示
 - 多语言路由（`/:lang?`）
 - SEO 路由：`/robots.txt`、`/sitemap.xml`、`/rss.xml`
 - 多语言 Markdown 页面（about/faq/privacy/terms + 长尾 SEO 落地页）
 - 多语言博客列表、分页、文章页
+
+## 本版本新增与改善
+
+- 新增附件元数据解析：`/api/email/:id` 会返回附件文件名、MIME 类型和大小。
+- 新增附件下载接口：`/api/email/:id/attachment/:filename`，下载前校验当前会话地址归属和 24 小时有效期。
+- 新增邮件详情附件栏：前端弹窗展示附件列表、文件大小和下载入口。
+- 改善 HTML 邮件渲染：自动把内联附件中的 `cid:` 图片替换为 base64 data URI，修复邮件正文图片不显示的问题。
+- 改善收件箱刷新：使用局部 fetcher 刷新列表，减少整页 revalidation 带来的状态扰动。
+- 改善 Worker 收信日志：邮件解析、D1 写入或 R2 写入失败时记录 `Email processing failed`，便于在 Cloudflare 日志中排查。
+- 域名与品牌适配：页面、RSS、SEO、联系方式和生成邮箱域名已迁移到 `smail.606055.xyz` / `606055.xyz`。
 
 ## 数据流（真实实现）
 
@@ -54,7 +70,10 @@
 4. 打开邮件详情时，通过 `/api/email/:id`：
    - 校验该邮件地址属于当前会话
    - 校验地址是否超过 24h
-   - 从 R2 读取原始邮件并解析后返回
+   - 从 R2 读取原始邮件并解析后返回正文与附件元数据
+5. 下载附件时，通过 `/api/email/:id/attachment/:filename`：
+   - 复用会话地址归属与过期校验
+   - 从 R2 原始邮件中重新解析附件并返回文件内容
 
 说明：当前“24 小时”主要体现在 Cookie Session 可访问窗口与前端展示逻辑；`scheduled` 清理入口已预留，但未实现数据库物理清理逻辑。
 
@@ -117,13 +136,13 @@ pnpm run preview
 - `pnpm run preview`：本地预览构建产物
 - `pnpm run typecheck`：Cloudflare 类型生成 + 路由类型生成 + TS 检查
 - `pnpm run deploy`：构建后部署到 Cloudflare Workers
-- `pnpm run migrate`：对远端 D1（`smail-v3`）执行迁移
+- `pnpm run migrate`：对远端 D1（`smail`）执行迁移
 
 ## Cloudflare 资源绑定
 
 `wrangler.jsonc` 当前使用以下绑定：
 
-- `D1`：邮件元数据（数据库名 `smail-v3`）
+- `D1`：邮件元数据（数据库名 `smail`）
 - `R2`：邮件内容对象存储（桶名 `smailv3`）
 - `triggers.crons`：`*/30 * * * *`（30 分钟触发一次，当前 `scheduled` 未实现清理）
 

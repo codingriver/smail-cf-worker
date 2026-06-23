@@ -23,18 +23,23 @@ export default {
 		});
 	},
 	async email(msg, env) {
-		const parser = new Parser();
-		const ab = await new Response(msg.raw).arrayBuffer();
-		const parsed = await parser.parse(ab);
-		const id = nanoid();
+		try {
+			const parser = new Parser();
+			const ab = await new Response(msg.raw).arrayBuffer();
+			const parsed = await parser.parse(ab);
+			const id = nanoid();
 
-		await env.D1.prepare(
-			"INSERT INTO emails (id, to_address, from_name, from_address, subject, time) VALUES (?, ?, ?, ?, ?, ?)",
-		)
-			.bind(id, msg.to, parsed.from?.name, parsed.from?.address, parsed.subject, Date.now())
-			.run();
+			await env.D1.prepare(
+				"INSERT INTO emails (id, to_address, from_name, from_address, subject, time) VALUES (?, ?, ?, ?, ?, ?)",
+			)
+				.bind(id, msg.to, parsed.from?.name, parsed.from?.address, parsed.subject, Date.now())
+				.run();
 
-		await env.R2.put(id, ab);
+			await env.R2.put(id, ab);
+		} catch (err) {
+			console.error("Email processing failed:", err);
+			throw err;
+		}
 	},
 	async scheduled() {
 	},

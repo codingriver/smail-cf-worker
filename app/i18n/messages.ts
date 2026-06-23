@@ -43,6 +43,7 @@ export interface Dictionary {
 			time: string;
 			loading: string;
 			empty: string;
+			attachments: string;
 		};
 	};
 	layout: {
@@ -115,6 +116,7 @@ const en: Dictionary = {
 			time: "Time",
 			loading: "Loading...",
 			empty: "No content",
+			attachments: "Attachments",
 		},
 	},
 	layout: {
@@ -186,6 +188,7 @@ const zh: Dictionary = {
 			time: "时间",
 			loading: "加载中...",
 			empty: "暂无内容",
+			attachments: "附件",
 		},
 	},
 	layout: {
@@ -258,6 +261,7 @@ const es: Dictionary = {
 			time: "Hora",
 			loading: "Cargando...",
 			empty: "Sin contenido",
+			attachments: "Adjuntos",
 		},
 	},
 	layout: {
@@ -327,6 +331,7 @@ const fr: Dictionary = {
 			time: "Heure",
 			loading: "Chargement...",
 			empty: "Aucun contenu",
+			attachments: "Pièces jointes",
 		},
 	},
 	layout: {
@@ -395,6 +400,7 @@ const de: Dictionary = {
 			time: "Zeit",
 			loading: "Lädt...",
 			empty: "Kein Inhalt",
+			attachments: "Anhänge",
 		},
 	},
 	layout: {
@@ -463,6 +469,7 @@ const ja: Dictionary = {
 			time: "時刻",
 			loading: "読み込み中...",
 			empty: "内容なし",
+			attachments: "添付ファイル",
 		},
 	},
 	layout: {
@@ -529,6 +536,7 @@ const ko: Dictionary = {
 			time: "시간",
 			loading: "불러오는 중...",
 			empty: "내용 없음",
+			attachments: "첨부 파일",
 		},
 	},
 	layout: {
@@ -598,6 +606,7 @@ const ru: Dictionary = {
 			time: "Время",
 			loading: "Загрузка...",
 			empty: "Нет содержимого",
+			attachments: "Вложения",
 		},
 	},
 	layout: {
@@ -667,6 +676,7 @@ const pt: Dictionary = {
 			time: "Hora",
 			loading: "Carregando...",
 			empty: "Sem conteúdo",
+			attachments: "Anexos",
 		},
 	},
 	layout: {
@@ -734,6 +744,7 @@ const ar: Dictionary = {
 			time: "الوقت",
 			loading: "جارٍ التحميل...",
 			empty: "لا يوجد محتوى",
+			attachments: "المرفقات",
 		},
 	},
 	layout: {

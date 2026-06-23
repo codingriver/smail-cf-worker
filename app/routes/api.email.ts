@@ -1,8 +1,45 @@
-import Parser from "postal-mime";
+import Parser, { type Attachment } from "postal-mime";
 import { getSession } from "~/.server/session";
 import type { EmailDetail } from "~/types/email";
 import { MAIL_RETENTION_MS } from "~/utils/mail-retention";
 import type { Route } from "./+types/api.email";
+
+function attachmentContentToUint8Array(content: Attachment["content"]): Uint8Array {
+	if (typeof content === "string") {
+		return new TextEncoder().encode(content);
+	}
+	return content instanceof Uint8Array ? content : new Uint8Array(content);
+}
+
+function attachmentContentToBase64(content: Attachment["content"]): string {
+	const bytes = attachmentContentToUint8Array(content);
+	let binary = "";
+	for (let i = 0; i < bytes.byteLength; i++) {
+		binary += String.fromCharCode(bytes[i]);
+	}
+	return btoa(binary);
+}
+
+function replaceInlineImages(
+	html: string,
+	attachments: Attachment[],
+): string {
+	let result = html;
+	for (const att of attachments) {
+		if (att.disposition !== "inline" || !att.contentId || !att.content) {
+			continue;
+		}
+		const cid = att.contentId.replace(/^<|>$/g, "");
+		const base64 = attachmentContentToBase64(att.content);
+		const dataUri = `data:${att.mimeType || "image/png"};base64,${base64}`;
+		// Replace both cid:xxx and cid:"xxx" variants
+		result = result.replace(
+			new RegExp(`cid:["']?${cid.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["']?`, "gi"),
+			dataUri,
+		);
+	}
+	return result;
+}
 
 function wrapEmailContent(content: string): string {
 	return `<!DOCTYPE html>
@@ -96,8 +133,24 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
 
 	const parser = new Parser();
 	const message = await parser.parse(object.body);
-	const content = message.html || message.text || "";
+	let content = message.html || message.text || "";
+
+	// Replace inline CID images with base64 data URIs
+	if (message.html && message.attachments?.length) {
+		content = replaceInlineImages(content, message.attachments);
+	}
+
+	// Collect attachment metadata (excluding inline images shown in body)
+	const attachments = (message.attachments || [])
+		.filter((att) => att.disposition === "attachment")
+		.map((att) => ({
+			filename: att.filename || "unnamed",
+			mimeType: att.mimeType || "application/octet-stream",
+			size: attachmentContentToUint8Array(att.content).byteLength,
+		}));
+
 	return {
 		body: wrapEmailContent(content),
+		attachments,
 	};
 }

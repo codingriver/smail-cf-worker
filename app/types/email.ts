@@ -7,6 +7,13 @@ export type Email = {
 	time: number;
 };
 
+export type AttachmentMeta = {
+	filename: string;
+	mimeType: string;
+	size: number;
+};
+
 export type EmailDetail = Email & {
 	body: string;
+	attachments: AttachmentMeta[];
 };

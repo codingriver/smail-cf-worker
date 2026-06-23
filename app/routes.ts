@@ -45,4 +45,5 @@ export default [
 		),
 	]),
 	route("/api/email/:id", "routes/api.email.ts"),
+	route("/api/email/:id/attachment/:filename", "routes/api.email.attachment.ts"),
 ] satisfies RouteConfig;

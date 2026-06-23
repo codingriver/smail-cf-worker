@@ -1,23 +1,28 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "smail-app",
+	"name": "smail",
 	"compatibility_date": "2025-11-26",
 	"main": "./workers/app.ts",
 	"secrets": {
-		"required": ["SESSION_SECRETS"]
+		"required": [
+			"SESSION_SECRETS"
+		]
 	},
 	"observability": {
 		"enabled": true
 	},
 	"triggers": {
-		"crons": ["*/30 * * * *"]
+		"crons": [
+			"*/30 * * * *"
+		]
 	},
+	"workers_dev": true,
 	"d1_databases": [
 		{
 			"binding": "D1",
-			"database_name": "smail-v3",
-			"database_id": "8a38551f-5eab-4095-b69b-2f4a87e9d8d1",
-			"preview_database_id": "8a38551f-5eab-4095-b69b-2f4a87e9d8d1",
+			"database_name": "smail",
+			"database_id": "e23143fd-ad53-43cc-befb-905d268c83f3",
+			"preview_database_id": "e23143fd-ad53-43cc-befb-905d268c83f3",
 			"migrations_dir": "migrations"
 		}
 	],
@@ -25,6 +30,12 @@
 		{
 			"binding": "R2",
 			"bucket_name": "smailv3"
+		}
+	],
+	"routes": [
+		{
+			"pattern": "smail.606055.xyz",
+			"custom_domain": true
 		}
 	]
 }

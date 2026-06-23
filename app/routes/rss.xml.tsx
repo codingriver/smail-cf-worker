@@ -31,14 +31,14 @@ function getFeedCopy(locale: Locale): {
 } {
 	if (locale === "zh") {
 		return {
-			title: "smail.pw 博客",
+			title: "smail 博客",
 			description: "临时邮箱使用指南、排障手册与隐私实践文章。",
 			language: "zh-CN",
 		};
 	}
 
 	return {
-		title: "smail.pw Blog",
+		title: "smail Blog",
 		description:
 			"Temporary email guides, troubleshooting, and privacy best practices.",
 		language: "en-US",

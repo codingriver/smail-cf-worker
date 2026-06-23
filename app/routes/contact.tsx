@@ -9,7 +9,7 @@ import { BASE_URL } from "~/seo.config";
 import { mergeRouteMeta } from "~/utils/meta";
 import type { Route } from "./+types/contact";
 
-const SUPPORT_EMAIL = "support@smail.pw";
+const SUPPORT_EMAIL = "support@smail.606055.xyz";
 
 type ContactCopy = {
 	metaTitle: string;
@@ -192,7 +192,7 @@ export default function ContactPage({ params }: Route.ComponentProps) {
 		description: copy.description,
 		mainEntity: {
 			"@type": "Organization",
-			name: "smail.pw",
+			name: "smail",
 			email: SUPPORT_EMAIL,
 		},
 	};
