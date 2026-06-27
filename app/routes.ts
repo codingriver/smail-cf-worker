@@ -44,6 +44,9 @@ export default [
 			route(`:lang?/${page}`, "routes/md.tsx", { id: `md-${page}` }),
 		),
 	]),
+	route("/api/address", "routes/api.address.ts"),
+	route("/api/emails", "routes/api.emails.ts"),
 	route("/api/email/:id", "routes/api.email.ts"),
+	route("/api/email/:id/code", "routes/api.email.code.ts"),
 	route("/api/email/:id/attachment/:filename", "routes/api.email.attachment.ts"),
 ] satisfies RouteConfig;

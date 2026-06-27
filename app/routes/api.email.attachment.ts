@@ -1,19 +1,7 @@
-import Parser, { type Attachment } from "postal-mime";
-import { getSession } from "~/.server/session";
-import { MAIL_RETENTION_MS } from "~/utils/mail-retention";
+import Parser from "postal-mime";
+import { canAccessAddress, requireApiAuth } from "~/utils/api-auth.server";
+import { attachmentContentToArrayBuffer } from "~/utils/email-content.server";
 import type { Route } from "./+types/api.email.attachment";
-
-function attachmentContentToUint8Array(content: Attachment["content"]): Uint8Array {
-	if (typeof content === "string") {
-		return new TextEncoder().encode(content);
-	}
-	return content instanceof Uint8Array ? content : new Uint8Array(content);
-}
-
-function attachmentContentToArrayBuffer(content: Attachment["content"]): ArrayBuffer {
-	const bytes = attachmentContentToUint8Array(content);
-	return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer;
-}
 
 export async function loader({ request, params, context }: Route.LoaderArgs) {
 	const { id, filename } = params;
@@ -23,6 +11,7 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
 
 	const d1 = context.cloudflare.env.D1;
 	const r2 = context.cloudflare.env.R2;
+	const auth = await requireApiAuth(request, context.cloudflare.env);
 
 	const mail = await d1
 		.prepare("SELECT * FROM emails WHERE id = ?")
@@ -32,14 +21,8 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
 		throw new Response("Not found", { status: 404 });
 	}
 
-	const session = await getSession(request.headers.get("Cookie"));
-	const addresses = session.get("addresses") || [];
-	const addressIssuedAt = session.get("addressIssuedAt");
-	const isAddressExpired =
-		typeof addressIssuedAt === "number" &&
-		Date.now() - addressIssuedAt >= MAIL_RETENTION_MS;
-	if (isAddressExpired || !addresses.includes(mail.to_address)) {
-		throw new Response("Unauthorized", { status: 403 });
+	if (!canAccessAddress(auth, mail.to_address)) {
+		throw new Response("Forbidden", { status: 403 });
 	}
 
 	const object = await r2.get(id);

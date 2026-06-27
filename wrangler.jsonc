@@ -5,7 +5,9 @@
 	"main": "./workers/app.ts",
 	"secrets": {
 		"required": [
-			"SESSION_SECRETS"
+			"SESSION_SECRETS",
+			"API_TOKENS",
+			"ADMIN_API_TOKENS"
 		]
 	},
 	"observability": {

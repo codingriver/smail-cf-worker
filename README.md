@@ -1,5 +1,12 @@
 # smail Cloudflare Worker
 
+> **文档入口 / Documentation**
+>
+> - [中文完整文档](./README.zh-CN.md)
+> - [API 调用说明](#api-调用)
+> - [Cloudflare Secret 配置](#cloudflare-资源绑定)
+> - [部署说明](#部署说明)
+
 基于 React Router Framework Mode + Cloudflare Workers 的临时邮箱服务。
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/codingriver/smail-cf-worker)
@@ -149,6 +156,8 @@ pnpm run preview
 此外还需要配置一个 Worker Secret：
 
 - `SESSION_SECRETS`：Cookie Session 的签名密钥。支持逗号分隔多个值用于轮换，最左侧为当前生效密钥。
+- `API_TOKENS`：普通 API Token，逗号分隔。当前仅用于认证，不授予跨邮箱读取权限。
+- `ADMIN_API_TOKENS`：管理员 API Token，逗号分隔。可按邮箱地址读取邮件列表、邮件详情、验证码和附件。
 
 本地开发可使用 `.env`，生产环境使用：
 
@@ -156,6 +165,78 @@ pnpm run preview
 
 ```bash
 pnpm wrangler secret put SESSION_SECRETS
+pnpm wrangler secret put API_TOKENS
+pnpm wrangler secret put ADMIN_API_TOKENS
+```
+
+## API 调用
+
+API 返回 JSON 时均设置 `Cache-Control: no-store`。管理员接口使用 Bearer Token：
+
+```bash
+Authorization: Bearer <ADMIN_API_TOKEN>
+```
+
+### 生成临时邮箱
+
+```bash
+curl -c cookie.txt -X POST https://smail.606055.xyz/api/address
+```
+
+返回当前 session 下的新邮箱地址：
+
+```json
+{
+  "address": "name-abc123@606055.xyz",
+  "addresses": ["name-abc123@606055.xyz"],
+  "addressIssuedAt": 1782560000000,
+  "expiresAt": 1782646400000
+}
+```
+
+### 查询当前地址
+
+```bash
+curl -b cookie.txt https://smail.606055.xyz/api/address
+```
+
+### 查询邮件列表
+
+普通 session 只能查询自己当前地址：
+
+```bash
+curl -b cookie.txt https://smail.606055.xyz/api/emails
+```
+
+管理员 Token 可指定任意地址：
+
+```bash
+curl -H "Authorization: Bearer <ADMIN_API_TOKEN>" \
+  "https://smail.606055.xyz/api/emails?address=name-abc123@606055.xyz&limit=50"
+```
+
+### 查询邮件内容
+
+```bash
+curl -b cookie.txt https://smail.606055.xyz/api/email/<email-id>
+```
+
+返回字段包含 `body`（包裹后的 HTML 预览）、`html`、`text` 和 `attachments`。管理员也可使用 Bearer Token 读取任意邮件。
+
+### 提取验证码
+
+```bash
+curl -b cookie.txt "https://smail.606055.xyz/api/email/<email-id>/code?length=6"
+```
+
+返回：
+
+```json
+{
+  "code": "123456",
+  "candidates": ["123456"],
+  "source": "text"
+}
 ```
 
 ## 数据库迁移
