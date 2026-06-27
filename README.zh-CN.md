@@ -40,7 +40,7 @@
 部署前需要确认：
 
 - 仓库为公开仓库，否则 Cloudflare 一键部署可能无法拉取。
-- `wrangler.jsonc` 中的 D1、R2、路由域名适合你的账号。
+- 已由 `wrangler.example.jsonc` 复制生成本地私有 `wrangler.jsonc`，并填入适合你账号的 D1、R2、路由域名。
 - 生产环境必须配置 Secret，见下方 [Cloudflare 配置](#cloudflare-配置)。
 
 ## 本地开发

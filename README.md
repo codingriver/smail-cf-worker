@@ -22,7 +22,7 @@
 ## 一键部署（Deploy to Cloudflare）
 
 - 上方按钮可让其他开发者将本项目一键部署到他们自己的 Cloudflare 账号。
-- 部署流程会基于仓库中的 `wrangler.jsonc` 自动创建并绑定所需资源（D1 / R2）。
+- 部署前需先由 `wrangler.example.jsonc` 复制生成本地私有 `wrangler.jsonc`，再绑定自己的 Cloudflare 资源（D1 / R2）。
 - 项目仓库需要保持公开（public）才能让他人正常使用该按钮。
 
 ## 项目简介
@@ -98,7 +98,7 @@ workers/
   app.ts               # Cloudflare Worker 入口（fetch + email）
 migrations/
   *.sql                # D1 迁移
-wrangler.jsonc         # Cloudflare 绑定配置
+wrangler.example.jsonc # Cloudflare 绑定配置示例；真实 wrangler.jsonc 仅保留在本地
 ```
 
 ## 本地开发
