@@ -147,10 +147,20 @@ pnpm run preview
 
 ## Cloudflare 资源绑定
 
-`wrangler.jsonc` 当前使用以下绑定：
+仓库提交的是 `wrangler.example.jsonc` 示例配置。真实部署配置使用本地私有的 `wrangler.jsonc`，该文件已加入 `.gitignore`，不会提交到仓库。
 
-- `D1`：邮件元数据（数据库名 `smail`）
-- `R2`：邮件内容对象存储（桶名 `smailv3`）
+首次配置时复制示例文件：
+
+```bash
+cp wrangler.example.jsonc wrangler.jsonc
+```
+
+然后把 `wrangler.jsonc` 中的 D1、R2 和自定义域名占位符替换为你自己的 Cloudflare 资源。
+
+部署时请以本地私有 `wrangler.jsonc` 为准，至少需要配置：
+
+- `D1`：邮件元数据数据库，绑定名必须为 `D1`
+- `R2`：邮件内容对象存储桶，绑定名必须为 `R2`
 - `triggers.crons`：`*/30 * * * *`（30 分钟触发一次，当前 `scheduled` 未实现清理）
 
 此外还需要配置一个 Worker Secret：

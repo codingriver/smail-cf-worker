@@ -11,9 +11,11 @@ package-lock.json
 # Cloudflare
 .mf
 .wrangler
+wrangler.jsonc
 .dev.vars*
 worker-configuration.d.ts
 
 
 !.dev.vars.example
 !.env.example
+!wrangler.example.jsonc
